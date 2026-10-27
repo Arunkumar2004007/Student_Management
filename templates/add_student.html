@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Student form{% endblock %}
+{% block content %}
+<div class="card narrow wide">
+  <h1>{% block heading %}Add student{% endblock %}</h1>
+  <form method="post" action="{% block action %}{{ url_for('add_student') }}{% endblock %}" class="formgrid">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label class="full">Full name<input name="name" value="{{ student.name }}" required maxlength="100"></label>
+    <label>Roll number<input name="roll_no" value="{{ student.roll_no }}" required maxlength="20"></label>
+    <label>Class
+      <select name="class_name">{% for c in CLASSES %}<option {{ 'selected' if c == student.class_name }}>{{ c }}</option>{% endfor %}</select>
+    </label>
+    <label>Email<input name="email" type="email" value="{{ student.email }}" maxlength="120"></label>
+    <label>Phone<input name="phone" type="tel" value="{{ student.phone }}" maxlength="20" inputmode="tel"></label>
+    <label class="full">Guardian name<input name="guardian" value="{{ student.guardian }}" maxlength="100"></label>
+    <div class="full actions">
+      <a class="btn ghost" href="{{ url_for('view_students') }}">Cancel</a>
+      <button class="btn">{% block submit %}Save student{% endblock %}</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

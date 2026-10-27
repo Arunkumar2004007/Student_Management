@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="row">
+  <h1>Students</h1>
+  <a class="btn" href="{{ url_for('add_student') }}">Add student</a>
+</div>
+<form method="get" class="bar">
+  <input type="search" name="q" value="{{ q }}" placeholder="Search by name, roll or email" aria-label="Search students">
+  <select name="cls" aria-label="Filter by class">
+    <option value="">All classes</option>
+    {% for c in CLASSES %}<option {{ 'selected' if c == cls }}>{{ c }}</option>{% endfor %}
+  </select>
+  <button class="btn ghost">Search</button>
+</form>
+<div class="card scroll">
+{% if students %}
+<table>
+  <thead><tr><th>Roll</th><th>Name</th><th>Class</th><th>Contact</th><th>Guardian</th><th></th></tr></thead>
+  <tbody>
+  {% for s in students %}
+  <tr>
+    <td>{{ s.roll_no }}</td><td>{{ s.name }}</td><td>{{ s.class_name }}</td>
+    <td>{{ s.email or '' }}<br><span class="muted">{{ s.phone or '' }}</span></td>
+    <td>{{ s.guardian or '' }}</td>
+    <td class="num nowrap">
+      <a class="btn ghost sm" href="{{ url_for('edit_student', sid=s.id) }}">Edit</a>
+      {% if session.role == 'admin' %}
+      <form method="post" action="{{ url_for('delete_student', sid=s.id) }}" class="inline" data-confirm="Delete {{ s.name }}? This can't be undone.">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="btn danger sm">Delete</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">No students match. Clear the search or add a new student.</p>{% endif %}
+</div>
+{% endblock %}

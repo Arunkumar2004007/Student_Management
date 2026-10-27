@@ -1,0 +1,4 @@
+{% extends "add_student.html" %}
+{% block heading %}Edit student{% endblock %}
+{% block action %}{{ url_for('edit_student', sid=student.id) }}{% endblock %}
+{% block submit %}Save changes{% endblock %}

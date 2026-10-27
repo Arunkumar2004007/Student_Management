@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Staff sign in{% endblock %}
+{% block content %}
+<div class="card narrow">
+  {% if denied %}
+    <h1>Admins only</h1>
+    <p class="muted">Your account can't do that. Ask an admin to make the change.</p>
+    <a class="btn" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+  {% else %}
+    <h1>Staff sign in</h1>
+    <p class="muted">Sign in to manage students.</p>
+    <form method="post" action="{{ url_for('login') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>Username<input name="username" autocomplete="username" required autofocus></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn block">Sign in</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stats">
+  <div class="stat"><b>{{ total }}</b><span>Students enrolled</span></div>
+  <div class="stat"><b>{{ per_class|length }}</b><span>Classes with students</span></div>
+</div>
+<div class="grid2">
+  <section class="card">
+    <h2>Students per class</h2>
+    {% if per_class %}
+    <table>{% for c in per_class %}<tr><td>{{ c.class_name }}</td><td class="num">{{ c.n }}</td></tr>{% endfor %}</table>
+    {% else %}<p class="muted">No students yet. <a href="{{ url_for('add_student') }}">Add the first student</a>.</p>{% endif %}
+  </section>
+  <section class="card">
+    <h2>Recently added</h2>
+    {% if recent %}
+    <table>{% for s in recent %}<tr><td>{{ s.name }}</td><td>{{ s.class_name }}</td><td class="muted">{{ s.created_at.strftime('%d %b %Y') }}</td></tr>{% endfor %}</table>
+    {% else %}<p class="muted">Nothing to show yet.</p>{% endif %}
+  </section>
+</div>
+{% endblock %}
